@@ -1,0 +1,24 @@
+{
+  "name": "flydev-mercadopagolib",
+  "version": "1.0.0",
+  "description": "mercadopago lib wrapper",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "mercadopago": "^1.5.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pablocalofatti/flydev-mercadopagolib.git"
+  },
+  "author": "Pablo Calofatti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pablocalofatti/flydev-mercadopagolib/issues"
+  },
+  "homepage": "https://github.com/pablocalofatti/flydev-mercadopagolib#readme"
+}
