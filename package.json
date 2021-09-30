@@ -1,5 +1,5 @@
 {
-  "name": "flydev-mercadopagolib",
+  "name": "flydev-mp-lib",
   "version": "1.0.0",
   "description": "mercadopago lib wrapper",
   "main": "index.js",
