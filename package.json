@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/pablocalofatti/flydev-mercadopagolib.git"
   },
-  "author": "Pablo Calofatti",
+  "author": "Pablo Calofatti <pablo.calofatti1@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pablocalofatti/flydev-mercadopagolib/issues"

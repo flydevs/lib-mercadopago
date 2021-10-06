@@ -11,7 +11,7 @@ const { preferences, customers, payment, configure } = mercadopago;
         }
     }
 
-    const createCustomer = async(token, email, name, lastName, dni) => {
+    const createCustomer = async(token, email, name, lastName, dni, identificationType) => {
         configure({ access_token: token });
 
         try {
@@ -20,7 +20,7 @@ const { preferences, customers, payment, configure } = mercadopago;
                 first_name: name,
                 last_name: lastName,
                 identification:{
-                    type: "DNI",
+                    type: identificationType,
                     number: dni
                 }
             }
