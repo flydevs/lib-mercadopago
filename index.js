@@ -1,13 +1,48 @@
 const mercadopago = require('mercadopago');
-const { preferences, customers, payment, configure } = mercadopago;
+const { preferences, customers, payment, preapproval, configure } = mercadopago;
 
-
-    const mercadoPagoCreatePreference = async (token, preference)=>{
+    const createPreference = async (token, preference)=>{
         configure({ access_token: token });
         try {
             return await preferences.create(preference)
         } catch (error) {
-            return { Error: error.name, Message: error.message}
+            return { Error: error.name, Message: error.message }
+        }
+    }
+
+    const updatePreference = async (token, id, preference)=>{
+        configure({ access_token: token });
+        try {
+            return await preferences.update(id, preference)
+        } catch (error) {
+            return { Error: error.name, Message: error.message }
+        }
+    }
+
+    const createSubscription = async (token, preference)=>{
+        configure({ access_token: token });
+        try {
+            return await preapproval.create(preference)
+        } catch (error) {
+            return { Error: error.name, Message: error.message }
+        }
+    }
+
+    const pauseSubscription = async (token, subscriptionId)=>{
+        configure({ access_token: token });
+        try {
+            return await preapproval.pause(subscriptionId)
+        } catch (error) {
+            return { Error: error.name, Message: error.message }
+        }
+    }
+
+    const findSubscriptionById = async (token, subscriptionId)=>{
+        configure({ access_token: token });
+        try {
+            return await preapproval.findById(subscriptionId)
+        } catch (error) {
+            return { Error: error.name, Message: error.message }
         }
     }
 
@@ -24,8 +59,7 @@ const { preferences, customers, payment, configure } = mercadopago;
                     number: dni
                 }
             }
-            const { body } = await customers.create(customer)
-            return { customer: body} 
+            return await customers.create(customer)
         } catch (error) {
             return { Error: error.name, Message: error.message}
         }
@@ -35,8 +69,7 @@ const { preferences, customers, payment, configure } = mercadopago;
     const findCustomerByMail = async(token, email) => {
         configure({ access_token: token });
         try {
-            const { body } = await customers.search({qs:{email}})
-            return { customer: body.results[0]} 
+            return await customers.search({qs:{email}})
         } catch (error) {
             return { Error: error.name, Message: error.message}
         }
@@ -45,8 +78,7 @@ const { preferences, customers, payment, configure } = mercadopago;
     const findCustomerByMailAndIdentification = async(token, email, dni) => {
         configure({ access_token: token });
         try {
-            const { body } = await customers.search({qs:{email, identification:{ number: dni}}})
-            return { customer: body.results[0]} 
+            return await customers.search( {qs:{email, identification:{ number: dni}}})
         } catch (error) {
             return { Error: error.name, Message: error.message}
         }
@@ -55,23 +87,41 @@ const { preferences, customers, payment, configure } = mercadopago;
     const getPaymentInfoById = async(token,id) => {
         configure({ access_token: token });
         try {
-             const { body } = await payment.get(id)
-            return { 
-                email: body.payer.email, 
-                identificationNumber: body.payer.identification.number, 
-                customerId: body.payer.id,
-                customerFirstName: body.payer.first_name 
-            }
+            return await payment.get(id)
+        } catch (error) {
+            return { Error: error.name, Message: error.message}
+        }
+    }
+
+    const cancelPayment = async(token,paymentId) => {
+        configure({ access_token: token });
+        try {
+            return await payment.cancel(paymentId)
+        } catch (error) {
+            return { Error: error.name, Message: error.message}
+        }
+    }
+
+    const createPayment = async(token,payment) => {
+        configure({ access_token: token });
+        try {
+            return await payment.create(payment)
         } catch (error) {
             return { Error: error.name, Message: error.message}
         }
     }
 
 module.exports = { 
-    mercadoPagoCreatePreference,
+    createPreference,
     createCustomer,
     getPaymentInfoById,
     findCustomerByMailAndIdentification,
-    findCustomerByMail
+    findCustomerByMail,
+    createSubscription,
+    updatePreference,
+    pauseSubscription,
+    findSubscriptionById,
+    cancelPayment,
+    createPayment
 }
 

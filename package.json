@@ -1,11 +1,12 @@
 {
-  "name": "flydev-mp-lib",
-  "version": "1.0.0",
+  "name": "flydevs-mp-lib",
+  "version": "1.0.1",
   "description": "mercadopago lib wrapper",
   "main": "index.js",
   "dependencies": {
     "dotenv": "^10.0.0",
-    "mercadopago": "^1.5.8"
+    "mercadopago": "^1.5.8",
+    "prettier": "^2.4.1"
   },
   "devDependencies": {},
   "scripts": {
