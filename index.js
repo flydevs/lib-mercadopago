@@ -1,4 +1,3 @@
-const mercadopago = require('mercadopago');
 const axios = require('axios')
 
 
