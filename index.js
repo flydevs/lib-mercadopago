@@ -1,113 +1,154 @@
 const mercadopago = require('mercadopago');
-const { preferences, customers, payment, preapproval, configure } = mercadopago;
+const axios = require('axios')
+
+
+const url = 'https://api.mercadopago.com/';
 
     const createPreference = async (token, preference)=>{
-        configure({ access_token: token });
         try {
-            return await preferences.create(preference)
+            const { data } = await axios.post(`${url}checkout/preferences`, preference,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message }
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
     const updatePreference = async (token, id, preference)=>{
-        configure({ access_token: token });
         try {
-            return await preferences.update(id, preference)
+            const { data } = await axios.put(`${url}checkout/preferences/${id}`, preference,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message }
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
-    const createSubscription = async (token, preference)=>{
-        configure({ access_token: token });
+    const createSubscription = async (token, subscription)=>{
         try {
-            return await preapproval.create(preference)
+            const { data } = await axios.post(`${url}preapproval/`, subscription,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message }
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
-    const pauseSubscription = async (token, subscriptionId)=>{
-        configure({ access_token: token });
+    const cancelSubscription = async (token, subscriptionId)=>{
         try {
-            return await preapproval.pause(subscriptionId)
+            const { data } = await axios.put(`${url}preapproval/${subscriptionId}`, {
+                status: 'cancelled'
+            },
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message }
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
     const findSubscriptionById = async (token, subscriptionId)=>{
-        configure({ access_token: token });
         try {
-            return await preapproval.findById(subscriptionId)
+            const { data } = await axios.get(`${url}preapproval/${subscriptionId}`,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message }
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
-    const createCustomer = async(token, email, name, lastName, dni, identificationType) => {
-        configure({ access_token: token });
-
+    const createCustomer = async(token, customer) => {
         try {
-            const customer = {
-                email,
-                first_name: name,
-                last_name: lastName,
-                identification:{
-                    type: identificationType,
-                    number: dni
-                }
-            }
-            return await customers.create(customer)
+            const { data } = await axios.post(`${url}v1/customers`,customer,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message}
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
 
     }
 
     const findCustomerByMail = async(token, email) => {
-        configure({ access_token: token });
         try {
-            return await customers.search({qs:{email}})
+            const { data } = await axios.get(`${url}v1/customers/search?email=${email}`,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message}
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null }
+        }
+    }
+
+    const updateCustomer = async(token,id, customer) => {
+        try {
+            const { data } = await axios.put(`${url}v1/customers/${id}`, customer,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
+        } catch (error) {
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null }
         }
     }
 
     const findCustomerByMailAndIdentification = async(token, email, dni) => {
-        configure({ access_token: token });
         try {
-            return await customers.search( {qs:{email, identification:{ number: dni}}})
+            const { data } = await axios.get(`${url}v1/customers/search?email=${email}&&identification.number=${dni}`,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message}
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
-    const getPaymentInfoById = async(token,id) => {
-        configure({ access_token: token });
+    const getPaymentInfoById = async(token,paymentId) => {
         try {
-            return await payment.get(id)
+            const { data } = await axios.get(`${url}v1/payments/${paymentId}`,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message}
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
     const cancelPayment = async(token,paymentId) => {
-        configure({ access_token: token });
         try {
-            return await payment.cancel(paymentId)
-        } catch (error) {
-            return { Error: error.name, Message: error.message}
+            const { data } = await axios.put(`${url}v1/payments/${paymentId}`,{
+                status: 'cancelled'
+            },
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data        } catch (error) {
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
     const createPayment = async(token,payment) => {
-        configure({ access_token: token });
         try {
-            return await payment.create(payment)
+            const { data } = await axios.get(`${url}v1/payments/`, payment,
+            { headers: {
+                Authorization: `Bearer ${token}`
+            }})
+            return data
         } catch (error) {
-            return { Error: error.name, Message: error.message}
+            return { Error: error.name, Message: error.message, Cause: error.cause ? error.cause[0] : null}
         }
     }
 
@@ -119,9 +160,10 @@ module.exports = {
     findCustomerByMail,
     createSubscription,
     updatePreference,
-    pauseSubscription,
+    cancelSubscription,
     findSubscriptionById,
     cancelPayment,
-    createPayment
+    createPayment,
+    updateCustomer
 }
 
