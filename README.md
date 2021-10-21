@@ -1,4 +1,4 @@
-# flydev-mercadopagolib
+# flydevs-mercadopagolib
 
 This library provides developers with a simple set of bindings to help you integrate Mercado Pago API to a website and start receiving payments.
 
@@ -43,7 +43,7 @@ https://github.com/flydevs/lib-mercadopago
         return await createCustomer(YOUR_ACCESS_TOKEN, customer);
     }
 
-# createCustomer RESPONSE
+# createCustomer Response
 
     {
         "id": "1004238245-IZwmhfkG4h0ruj",
@@ -86,7 +86,7 @@ https://github.com/flydevs/lib-mercadopago
         return await findCustomerByMail(YOUR_ACCESS_TOKEN, customer.email);
     }
 
-# findCustomerByMail and findCustomerByMailAndIdentification RESPONSE
+# findCustomerByMail and findCustomerByMailAndIdentification Response
 
     {
         "paging": {
@@ -138,7 +138,7 @@ https://github.com/flydevs/lib-mercadopago
     const update = async () => {
         return await updatecustomer(YOUR_ACCESS_TOKEN, customerId, { first_name: 'User Updated' });
     }
-# updateCustomer RESPONSE
+# updateCustomer Response
 
     {
         "id": "1004238245-IZwmhfkG4h0ruj",
@@ -222,7 +222,7 @@ https://github.com/flydevs/lib-mercadopago
     const create = async () => {
         return await createPreference(YOUR_ACCESS_TOKEN, preference)
     }
-# createPrefrence RESPONSE 
+# createPrefrence Response 
 
     {
     additional_info: '',
@@ -317,7 +317,7 @@ https://github.com/flydevs/lib-mercadopago
         }
         return await updatePreference(YOUR_ACCESS_TOKEN, preferenceId, item)
     }
-# updatePreference RESPONSE
+# updatePreference Response
 
     {
     additional_info: '',
@@ -432,7 +432,7 @@ https://github.com/flydevs/lib-mercadopago
         return await createSubscription(YOUR_ACCESS_TOKEN, subscription)
     }
 
-#  createSubscription RESPONSE
+#  createSubscription Response
     {
         "id": "2c9380847c94e44e017c9f1e69e90d26",
         "payer_id": 449250417,
